@@ -62,8 +62,8 @@ jobs:
           $zipName = "valorez_${version}.zip"
           Write-Host "Creating zip file: $zipName"
           Get-ChildItem ./publish
-          Compress-Archive -Path ./publish/* -DestinationPath "../$zipName"
-          echo "zipName=../$zipName" >> $env:GITHUB_OUTPUT
+          Compress-Archive -Path ./publish/* -DestinationPath "$zipName"
+          echo "zipName=$zipName" >> $env:GITHUB_OUTPUT
 
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
