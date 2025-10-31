@@ -1,79 +1,44 @@
-name: CI - .NET 8 (Windows)
-
-permissions:
-  contents: write
+name: Publish
 
 on:
-  push:
-    branches: [ main ]
-    tags:
-      - 'v*.*.*'
-  pull_request:
-    branches: [ main ]
+  release:
+    types: [published]
 
-defaults:
-  run:
-    working-directory: VALORez
+env:
+  DOTNET_VERSION: '8.0.x'
 
 jobs:
-  build:
+  release:
+    name: Release (Windows)
     runs-on: windows-latest
-    permissions:
-      contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
         with:
-          fetch-depth: 0 
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Restore dependencies
-        run: dotnet restore VALORez.sln
-
-      - name: Build
-        run: dotnet build VALORez.sln --configuration Release --no-restore
-
-      - name: Run tests
-        run: dotnet test VALORez.sln --no-build --verbosity normal
-
-      - name: Get version from tag
-        id: get_version
+      - name: Build and Package
+        shell: bash
         run: |
-          $ref = "${{ github.ref }}"
-          if ($ref -match "refs/tags/v(.*)") {
-            echo "version=$($Matches[1])" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          } else {
-            echo "version=0.0.0" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          }
+          tag=$(git describe --tags --abbrev=0)
+          release_name="app-$tag-win-x64"
 
-      - name: Publish app
-        run: dotnet publish  VALORez.sln --configuration Release --output ./publish
+          # Build
+          dotnet publish --framework net8.0 --runtime win-x64 -c Release -o "$release_name"
 
-      - name: Create ZIP artifact
-        id: create_zip
-        shell: pwsh
-        run: |
-          $version = "${{ steps.get_version.outputs.version }}"
-          $zipName = "valorez_${version}.zip"
-          Write-Host "Creating zip file: $zipName"
-          Get-ChildItem ./publish
-          Compress-Archive -Path ./publish/* -DestinationPath "$zipName"
-          echo "zipName=$zipName" >> $env:GITHUB_OUTPUT
+          # Pack to zip
+          7z a -tzip "${release_name}.zip" "./${release_name}/*"
 
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
+          # Delete output directory
+          rm -r "$release_name"
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
         with:
-          name: "Release v${{ steps.get_version.outputs.version }}"
-          tag_name: v${{ steps.get_version.outputs.version }}
-          body: |
-            Version : **${{ steps.get_version.outputs.version }}**
-          files: ${{ steps.create_zip.outputs.zipName }}
+          files: "app*.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
