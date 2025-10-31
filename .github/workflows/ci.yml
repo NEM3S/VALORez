@@ -32,7 +32,7 @@ jobs:
         shell: pwsh
         run: |
           $tag = (git describe --tags --abbrev=0)
-          $releaseName = "valorez_$tag_win-x64"
+          $releaseName = "valorez-$tag-win-x64"
           dotnet publish VALORez/VALORez.sln -c Release -r win-x64 --self-contained false -o "$releaseName"
           Compress-Archive -Path "$releaseName/*" -DestinationPath "$releaseName.zip"
           Remove-Item -Recurse -Force "$releaseName"
@@ -40,6 +40,6 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v2
         with:
-          files: "valorez_*.zip"
+          files: "valorez*.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
