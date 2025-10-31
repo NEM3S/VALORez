@@ -24,13 +24,13 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore VALORez.sln
+        run: dotnet restore VALORez/VALORez.sln
 
       - name: Build
-        run: dotnet build VALORez.sln --configuration Release --no-restore
+        run: dotnet build VALORez/VALORez.sln --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test VALORez.sln --no-build --verbosity normal
+        run: dotnet test VALORez/VALORez.sln --no-build --verbosity normal
 
       - name: Get version from tag
         id: get_version
