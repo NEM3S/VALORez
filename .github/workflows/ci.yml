@@ -40,11 +40,14 @@ jobs:
           # Pack to zip
           7z a -tzip "${release_name}.zip" "./${release_name}/*"
 
+          # Move zip output
+          mv "${release_name}.zip" ..
+
           # Delete output directory
           rm -r "$release_name"
 
       - name: Publish
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: "valorez*.zip"
         env:
