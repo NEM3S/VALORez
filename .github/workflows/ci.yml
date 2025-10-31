@@ -8,6 +8,10 @@ on:
   pull_request:
     branches: [ main ]
 
+defaults:
+  run:
+    working-directory: VALORez
+
 jobs:
   build:
     runs-on: windows-latest
@@ -24,13 +28,13 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore VALORez/VALORez.sln
+        run: dotnet restore VALORez.sln
 
       - name: Build
-        run: dotnet build VALORez/VALORez.sln --configuration Release --no-restore
+        run: dotnet build VALORez.sln --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test VALORez/VALORez.sln --no-build --verbosity normal
+        run: dotnet test VALORez.sln --no-build --verbosity normal
 
       - name: Get version from tag
         id: get_version
@@ -43,7 +47,7 @@ jobs:
           }
 
       - name: Publish app
-        run: dotnet publish --configuration Release --output ./publish
+        run: dotnet publish  VALORez.sln --configuration Release --output ./publish
 
       - name: Create ZIP artifact
         run: |
