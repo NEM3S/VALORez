@@ -1,5 +1,8 @@
 name: CI - .NET 8 (Windows)
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [ main ]
@@ -15,6 +18,8 @@ defaults:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
