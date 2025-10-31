@@ -7,6 +7,10 @@ on:
 env:
   DOTNET_VERSION: '8.0.x'
 
+defaults:
+  run:
+    working-directory: VALORez
+
 jobs:
   release:
     name: Release (Windows)
