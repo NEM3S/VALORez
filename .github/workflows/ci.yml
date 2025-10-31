@@ -1,5 +1,8 @@
 name: Publish
 
+permissions:
+  contents: write
+
 on:
   release:
     types: [published]
@@ -18,10 +21,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -29,15 +32,14 @@ jobs:
         shell: pwsh
         run: |
           $tag = (git describe --tags --abbrev=0)
-          $releaseName = "valorez-$tag-win-x64"
-
-          dotnet publish VALORez.sln --framework net8.0 --runtime win-x64 -c Release -o "$releaseName"
+          $releaseName = "valorez_$tag_win-x64"
+          dotnet publish VALORez/VALORez.sln -c Release -r win-x64 --self-contained false -o "$releaseName"
           Compress-Archive -Path "$releaseName/*" -DestinationPath "$releaseName.zip"
           Remove-Item -Recurse -Force "$releaseName"
 
       - name: Publish
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: "valorez*.zip"
+          files: "valorez_*.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
