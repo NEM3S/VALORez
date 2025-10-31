@@ -1,0 +1,60 @@
+name: CI - .NET 8 (Windows)
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Get version from tag
+        id: get_version
+        run: |
+          $ref = "${{ github.ref }}"
+          if ($ref -match "refs/tags/v(.*)") {
+            echo "version=$($Matches[1])" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          } else {
+            echo "version=0.0.0" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          }
+
+      - name: Publish app
+        run: dotnet publish --configuration Release --output ./publish
+
+      - name: Create ZIP artifact
+        run: |
+          $version = "${{ steps.get_version.outputs.version }}"
+          $zipName = "valorez_${version}.zip"
+          Compress-Archive -Path ./publish/* -DestinationPath $zipName
+          echo "zipName=$zipName" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        shell: pwsh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: valorez_${{ steps.get_version.outputs.version }}
+          path: ${{ steps.create_zip.outputs.zipName }}
