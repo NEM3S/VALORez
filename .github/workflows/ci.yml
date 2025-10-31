@@ -33,7 +33,7 @@ jobs:
         run: |
           $tag = (git describe --tags --abbrev=0)
           $releaseName = "valorez-$tag-win-x64"
-          dotnet publish VALORez/VALORez.sln -c Release -r win-x64 --self-contained false -o "$releaseName"
+          dotnet publish VALORez.sln -c Release -r win-x64 --self-contained false -o "$releaseName"
           Compress-Archive -Path "$releaseName/*" -DestinationPath "$releaseName.zip"
           Remove-Item -Recurse -Force "$releaseName"
 
