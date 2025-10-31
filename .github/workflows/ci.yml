@@ -26,19 +26,14 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Build and Package
-        shell: bash
+        shell: pwsh
         run: |
-          tag=$(git describe --tags --abbrev=0)
-          release_name="app-$tag-win-x64"
+          $tag = (git describe --tags --abbrev=0)
+          $releaseName = "valorez-$tag-win-x64"
 
-          # Build
-          dotnet publish --framework net8.0 --runtime win-x64 -c Release -o "$release_name"
-
-          # Pack to zip
-          7z a -tzip "${release_name}.zip" "./${release_name}/*"
-
-          # Delete output directory
-          rm -r "$release_name"
+          dotnet publish VALORez.sln --framework net8.0 --runtime win-x64 -c Release -o "$releaseName"
+          Compress-Archive -Path "$releaseName/*" -DestinationPath "$releaseName.zip"
+          Remove-Item -Recurse -Force "$releaseName"
 
       - name: Publish
         uses: softprops/action-gh-release@v1
