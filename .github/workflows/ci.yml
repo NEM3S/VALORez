@@ -50,15 +50,17 @@ jobs:
         run: dotnet publish  VALORez.sln --configuration Release --output ./publish
 
       - name: Create ZIP artifact
+        id: create_zip
+        shell: pwsh
         run: |
           $version = "${{ steps.get_version.outputs.version }}"
           $zipName = "valorez_${version}.zip"
           Compress-Archive -Path ./publish/* -DestinationPath $zipName
-          echo "zipName=$zipName" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        shell: pwsh
+          echo "zipName=$zipName" >> $env:GITHUB_OUTPUT
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: valorez_${{ steps.get_version.outputs.version }}
           path: ${{ steps.create_zip.outputs.zipName }}
+
