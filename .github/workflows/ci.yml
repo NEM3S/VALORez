@@ -55,12 +55,20 @@ jobs:
         run: |
           $version = "${{ steps.get_version.outputs.version }}"
           $zipName = "valorez_${version}.zip"
-          Compress-Archive -Path ./publish/* -DestinationPath $zipName
-          echo "zipName=$zipName" >> $env:GITHUB_OUTPUT
+          Write-Host "Creating zip file: $zipName"
+          Get-ChildItem ./publish
+          Compress-Archive -Path ./publish/* -DestinationPath "../$zipName"
+          echo "zipName=../$zipName" >> $env:GITHUB_OUTPUT
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
         with:
-          name: valorez_${{ steps.get_version.outputs.version }}
-          path: ${{ steps.create_zip.outputs.zipName }}
+          name: "Release v${{ steps.get_version.outputs.version }}"
+          tag_name: v${{ steps.get_version.outputs.version }}
+          body: |
+            Version : **${{ steps.get_version.outputs.version }}**
+          files: ${{ steps.create_zip.outputs.zipName }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
