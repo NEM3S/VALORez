@@ -32,10 +32,15 @@ jobs:
         shell: bash
         run: |
           tag=$(git describe --tags --abbrev=0)
+          version=${tag#v}
           release_name="valorez-$tag-win-x64"
 
           # Build
-          dotnet publish VALORez.sln --framework net8.0 --runtime win-x64 -c Release -o "$release_name"
+          dotnet publish VALORez.sln -c Release -r win-x64 -f net8.0 \
+            -p:PublishSingleFile=true -p:SelfContained=false \
+            -p:DebugType=None -p:DebugSymbols=false \
+            -p:Version=$version -p:FileVersion=$version -p:InformationalVersion=$tag \
+            -o "$release_name"
 
           # Pack to zip
           7z a -tzip "${release_name}.zip" "./${release_name}/*"
