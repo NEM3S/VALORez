@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Model.Exceptions;
+﻿using Model.Exceptions;
 
-namespace Model;
+namespace Model.Utils;
 
 internal class PuuidPeeker
 {
@@ -16,7 +12,7 @@ internal class PuuidPeeker
         Environment.SpecialFolder.LocalApplicationData),
         @"VALORANT\Saved\Config");
 
-    private StreamReader _fileStream;
+    private StreamReader? _fileStream;
     
     /// <summary>
     /// Try to get puuid of the current logged user.

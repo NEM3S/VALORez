@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using Model.Exceptions;
+﻿using Model.Exceptions;
+using Model.Utils;
 
 namespace Model;
 
 public class Patcher
 {
-    private int _width;
-    private int _height;
-
-    private IniFileManager _iniFileManager;
+    private IniFileManager? _iniFileManager;
 
     private readonly string _mainSection = "/Script/ShooterGame.ShooterGameUserSettings";
     private readonly Dictionary<string, string> _keys;
 
     public Patcher(int width = 1280, int height = 720)
     {
-        _width = width;
-        _height = height;
         _keys = new()
         { 
             {"bshouldletterbox", "False"},
             {"blastconfirmedshouldletterbox", "False"},
-            {"resolutionsizex", _width.ToString()},
-            {"resolutionsizey", _height.ToString()},
-            {"lastuserconfirmedresolutionsizex", _width.ToString()},
-            {"lastuserconfirmedresolutionsizey", _height.ToString()},
+            {"resolutionsizex", width.ToString()},
+            {"resolutionsizey", height.ToString()},
+            {"lastuserconfirmedresolutionsizex", width.ToString()},
+            {"lastuserconfirmedresolutionsizey", height.ToString()},
             {"windowposx", "0"},
             {"windowposy", "0"},
             {"lastconfirmedfullscreenmode", "2"},
@@ -57,7 +51,7 @@ public class Patcher
             }
             _iniFileManager.EnableReadOnly();
         }
-        catch (ValorezException e)
+        catch (ValorezException)
         {
             // Nothing to do...
         }
@@ -77,7 +71,7 @@ public class Patcher
             _iniFileManager.DisableReadOnly();
             _iniFileManager.DeleteFile();
         }
-        catch (ValorezException e)
+        catch (ValorezException)
         {
             // Nothing to do...
         }

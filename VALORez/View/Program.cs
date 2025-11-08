@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using Model;
+﻿using Model;
+using Model.Utils;
 
 namespace View;
 
@@ -7,6 +7,7 @@ public abstract class Program
 {
     public static void Main(string[] args)
     {
+        
         Console.WriteLine("[START]");
         
         string[] sizes = ["1280","720"];

@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Model;
+namespace Model.Utils;
 
 internal class IniFileManager(string puuid)
 {
@@ -21,7 +19,7 @@ internal class IniFileManager(string puuid)
     [DllImport("kernel32", CharSet = CharSet.Unicode)]
     static extern int GetPrivateProfileString(string? section, string key, string @default, StringBuilder retVal, int size, string filePath);
 
-    public string? Read(string key, string? section = null)
+    private string Read(string key, string? section = null)
     {
         var retVal = new StringBuilder(255);
         GetPrivateProfileString(section ?? _exe, key, "", retVal, 255, PathConfig);
@@ -45,7 +43,7 @@ internal class IniFileManager(string puuid)
 
     public bool KeyExists(string key, string? section = null)
     {
-        return section != null && Read(key, section)!.Length > 0;
+        return section != null && Read(key, section).Length > 0;
     }
 
     public void EnableReadOnly()
