@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System.Text;
+using Model;
 using Model.Utils;
 
 namespace View;
@@ -7,10 +8,10 @@ public abstract class Program
 {
     public static void Main(string[] args)
     {
+        Console.OutputEncoding = Encoding.UTF8;
         
         Console.WriteLine("[START]");
-        
-        string[] sizes = ["1280","720"];
+
         Patcher patcher = new Patcher();
 
         try
@@ -20,7 +21,7 @@ public abstract class Program
                 Console.WriteLine("[OPTION claimed]");
                 if (args[0].Contains("x"))
                 {
-                    sizes = args[0].Split('x');
+                    string[] sizes = args[0].Split('x');
                     patcher = new Patcher(int.Parse(sizes[0]), int.Parse(sizes[1]));
                     patcher.Initialize();
                 }
