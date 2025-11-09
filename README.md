@@ -1,4 +1,7 @@
-# VALORez
+<h1 align="center">VALORez</h1>
+
+[![C#](https://img.shields.io/badge/Language-C%23-green.svg)](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
+[![Publish](https://img.shields.io/github/actions/workflow/status/NEM3S/VALORez/ci.yml)](https://github.com/NEM3S/VALORez/actions/workflows/ci.yml)
 
 > **Status:** Working and fully functional as of **November 2025**.
 
@@ -26,9 +29,11 @@ VALORez.exe 1024x1080
 ```
 If no resolution is specified, the default one is 1280x720.
 
-Once the patch is applied:
-- Make sure to set the same resolution on your monitor before launching VALORANT.
-- ⚠️ Important: Your GPU’s Scaling Mode must be set to Full-screen for the stretched resolution to take effect.
+Once the patch is applied, make sure to set the same resolution on your monitor before launching VALORANT.
+
+> [!IMPORTANT]
+> Your GPU’s Scaling Mode must be set to Full-screen for the stretched resolution to take effect.
+
 ---
 ### Uninstalling
 To revert the patch, simply run the program with the `--reset` option:
@@ -45,7 +50,8 @@ After that, you’ll just need to reapply your usual graphics settings in VALORA
 This project is not affiliated with **Riot Games**.
 
 Use at your own risk. Patching game files may violate the Terms of Service — ensure you understand the risks before proceeding.
-> **Note:** As of today, no bans have been reported from users of VALORez.
+> [!NOTE]
+> As of today, no bans have been reported from users using stretched resolution.
 
 ## Credits
 
