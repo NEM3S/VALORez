@@ -4,8 +4,8 @@
   [![C#](https://img.shields.io/badge/language-C%23-green.svg)](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
   [![dotnet](https://img.shields.io/badge/Core-8.0-purple.svg?logo=dotnet)]([https://en.wikipedia.org/wiki/C_Sharp_(programming_language)](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-8.0.415-windows-x64-installer))
   [![Publish](https://img.shields.io/github/actions/workflow/status/NEM3S/VALORez/ci.yml)](https://github.com/NEM3S/VALORez/actions/workflows/ci.yml)
-  [![Download](https://img.shields.io/github/downloads/NEM3S/VALORez/total)](https://github.com/NEM3S/VALORez/release)
-  [![Download](https://img.shields.io/github/v/tag/NEM3S/VALORez?label=latest)](https://github.com/NEM3S/VALORez/release)
+  [![Download](https://img.shields.io/github/downloads/NEM3S/VALORez/total)](https://github.com/NEM3S/VALORez/releases)
+  [![Download](https://img.shields.io/github/v/tag/NEM3S/VALORez?label=latest)](https://github.com/NEM3S/VALORez/releases)
 </div>
 
 > **Status:** Working and fully functional as of **November 2025**.
