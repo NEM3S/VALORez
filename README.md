@@ -6,7 +6,11 @@
   [![Publish](https://img.shields.io/github/actions/workflow/status/NEM3S/VALORez/ci.yml)](https://github.com/NEM3S/VALORez/actions/workflows/ci.yml)
   [![Download](https://img.shields.io/github/downloads/NEM3S/VALORez/total)](https://github.com/NEM3S/VALORez/releases)
   [![Latest](https://img.shields.io/github/v/release/NEM3S/VALORez?label=latest)](https://github.com/NEM3S/VALORez/releases/latest)
+
+  ![](https://media.discordapp.net/attachments/1275112300101242971/1438833435685945404/image.png?ex=6918518f&is=6917000f&hm=0c0393cd7ff0b187bfcbb1b6fe7daf51afaf2162ba84162ea8e86b7d09b3b015&=&format=webp&quality=lossless)
+
 </div>
+
 
 > **Status:** Working and fully functional as of **November 2025**.
 
@@ -30,7 +34,7 @@ This one uses a **safe method** that doesn’t require uninstalling or modifying
 ### Setup
 Run the program from the command line with your desired stretched resolution, for example:  
 ```bash
-VALORez.exe 1024x1080
+VALORez.exe 1080x1024
 ```
 If no resolution is specified, the default one is 1280x720.
 
@@ -61,4 +65,4 @@ Use at your own risk. Patching game files may violate the Terms of Service — e
 ## Credits
 
 Passionately created by Mathis ❤️
-Thanks to all my friends for their constant support.
+Thanks to my gf and all my friends for their constant support.
