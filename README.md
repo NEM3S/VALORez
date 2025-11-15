@@ -8,11 +8,10 @@
   [![Latest](https://img.shields.io/github/v/release/NEM3S/VALORez?label=latest)](https://github.com/NEM3S/VALORez/releases/latest)
 
   ![](https://media.discordapp.net/attachments/1275112300101242971/1438833435685945404/image.png?ex=6918518f&is=6917000f&hm=0c0393cd7ff0b187bfcbb1b6fe7daf51afaf2162ba84162ea8e86b7d09b3b015&=&format=webp&quality=lossless)
-
 </div>
 
 
-> **Status:** Working and fully functional as of **November 2025**.
+> **Status:** Fully functional and operational from **November 2025**.
 
 **VALORez** is a lightweight console tool built with **.NET 8 (C#)** that allows you to **patch VALORANT** to enable **stretched resolutions**.
 
@@ -30,11 +29,10 @@ This one uses a **safe method** that doesn’t require uninstalling or modifying
 2. Extract the `.exe` file.
 
 ## Usage
----
 ### Setup
 Run the program from the command line with your desired stretched resolution, for example:  
 ```bash
-VALORez.exe 1080x1024
+VALORez.exe 1280x1024
 ```
 If no resolution is specified, the default one is 1280x720.
 
@@ -45,14 +43,12 @@ Once the patch is applied, make sure to set the same resolution on your monitor 
 
 ---
 ### Uninstalling
-To revert the patch, simply run the program with the `--reset` option:
+To revert the patch, simply run the program with the `--revert` option:
 ```bash
-VALORez.exe --reset
+VALORez.exe --revert
 ```
-This will delete your VALORANT configuration file, which will automatically be recreated the next time you launch the game.
-After that, you’ll just need to reapply your usual graphics settings in VALORANT.
-
-> I’m currently working on a better solution to avoid losing user settings during reset.
+This restores your original configuration file, which was saved when the patch was first applied.
+This ensures your initial settings are brought back safely.
 
 ## Disclaimer
 
@@ -64,5 +60,5 @@ Use at your own risk. Patching game files may violate the Terms of Service — e
 
 ## Credits
 
-Passionately created by Mathis ❤️
+Passionately created by _**Mathis**_ ❤️
 Thanks to my gf and all my friends for their constant support.
