@@ -6,10 +6,12 @@ namespace Model.Utils;
 
 internal class IniFileManager(string puuid)
 {
+    private const string CONFIG_END_PATH = @"WindowsClient\GameUserSettings.ini";
+    
     private string Puuid => string.IsNullOrEmpty(puuid) ? "Unknown" : puuid;
     
-    private string PathConfig => Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.LocalApplicationData), $@"VALORANT\Saved\Config\{Puuid}\WindowsClient\GameUserSettings.ini");
+    public string PathConfig => Path.Combine(Environment.GetFolderPath(
+            Environment.SpecialFolder.LocalApplicationData), $@"VALORANT\Saved\Config\{Puuid}\{CONFIG_END_PATH}");
     
     private readonly string? _exe = Assembly.GetExecutingAssembly().GetName().Name;
 

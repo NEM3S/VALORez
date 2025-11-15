@@ -6,6 +6,7 @@ namespace Model;
 public class Patcher
 {
     private IniFileManager? _iniFileManager;
+    private ConfigSaverService? _consoleSaver;
 
     private readonly string _mainSection = "/Script/ShooterGame.ShooterGameUserSettings";
     private readonly Dictionary<string, string> _keys;
@@ -34,6 +35,8 @@ public class Patcher
         {
             PuuidPeeker puuidPeeker = new PuuidPeeker();
             _iniFileManager = new IniFileManager(puuidPeeker.FindPuuidFolder());
+            _consoleSaver = new ConfigSaverService(_iniFileManager.PathConfig);
+            _consoleSaver.Save();
             
             _iniFileManager.DisableReadOnly();
             foreach (var key in _keys)
@@ -67,9 +70,15 @@ public class Patcher
         {
             PuuidPeeker puuidPeeker = new PuuidPeeker();
             _iniFileManager = new IniFileManager(puuidPeeker.FindPuuidFolder());
-            
-            _iniFileManager.DisableReadOnly();
-            _iniFileManager.DeleteFile();
+            _consoleSaver = new ConfigSaverService(_iniFileManager.PathConfig);
+
+            if (_consoleSaver.BackupExists())
+            {
+                _iniFileManager.DisableReadOnly();
+                _iniFileManager.DeleteFile();
+            }
+
+            _consoleSaver.Revert();
         }
         catch (ValorezException)
         {

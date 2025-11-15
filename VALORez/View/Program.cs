@@ -25,7 +25,7 @@ public abstract class Program
                     patcher = new Patcher(int.Parse(sizes[0]), int.Parse(sizes[1]));
                     patcher.Initialize();
                 }
-                else if (args[0] == "--reset")
+                else if (args[0] == "--revert")
                 {
                     patcher.Reset();
                 }
