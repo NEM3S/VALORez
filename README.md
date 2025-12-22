@@ -7,7 +7,19 @@
   [![Download](https://img.shields.io/github/downloads/NEM3S/VALORez/total)](https://github.com/NEM3S/VALORez/releases)
   [![Latest](https://img.shields.io/github/v/release/NEM3S/VALORez?label=latest)](https://github.com/NEM3S/VALORez/releases/latest)
 
-  ![](https://media.discordapp.net/attachments/1275112300101242971/1438833435685945404/image.png?ex=6918518f&is=6917000f&hm=0c0393cd7ff0b187bfcbb1b6fe7daf51afaf2162ba84162ea8e86b7d09b3b015&=&format=webp&quality=lossless)
+```
+      ___           ___           ___       ___           ___           ___           ___     
+     ╱╲__╲         ╱╲  ╲         ╱╲__╲     ╱╲  ╲         ╱╲  ╲         ╱╲  ╲         ╱╲  ╲    
+    ╱:╱  ╱        ╱::╲  ╲       ╱:╱  ╱    ╱::╲  ╲       ╱::╲  ╲       ╱::╲  ╲        ╲:╲  ╲   
+   ╱:╱  ╱        ╱:╱╲:╲  ╲     ╱:╱  ╱    ╱:╱╲:╲  ╲     ╱:╱╲:╲  ╲     ╱:╱╲:╲  ╲        ╲:╲  ╲  
+  ╱:╱__╱  ___   ╱::╲~╲:╲  ╲   ╱:╱  ╱    ╱:╱  ╲:╲  ╲   ╱::╲~╲:╲  ╲   ╱::╲~╲:╲  ╲        ╲:╲  ╲ 
+  │:│  │ ╱╲__╲ ╱:╱╲:╲ ╲:╲__╲ ╱:╱__╱    ╱:╱__╱ ╲:╲__╲ ╱:╱╲:╲ ╲:╲__╲ ╱:╱╲:╲ ╲:╲__╲ _______╲:╲__╲
+  │:│  │╱:╱  ╱ ╲╱__╲:╲╱:╱  ╱ ╲:╲  ╲    ╲:╲  ╲ ╱:╱  ╱ ╲╱_│::╲╱:╱  ╱ ╲:╲~╲:╲ ╲╱__╱ ╲::::::::╱__╱
+  │:│__╱:╱  ╱       ╲::╱  ╱   ╲:╲  ╲    ╲:╲  ╱:╱  ╱     │:│::╱  ╱   ╲:╲ ╲:╲__╲    ╲:╲~~╲~~    
+   ╲::::╱__╱        ╱:╱  ╱     ╲:╲  ╲    ╲:╲╱:╱  ╱      │:│╲╱__╱     ╲:╲ ╲╱__╱     ╲:╲  ╲     
+    ~~~~           ╱:╱  ╱       ╲:╲__╲    ╲::╱  ╱       │:│  │        ╲:╲__╲        ╲:╲__╲    
+                   ╲╱__╱         ╲╱__╱     ╲╱__╱         ╲│__│         ╲╱__╱         ╲╱__╱    
+```
 </div>
 
 
