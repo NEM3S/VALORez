@@ -60,8 +60,11 @@ internal class PuuidPeeker
     public string FindPuuidFolder()
     {
         string puuid = FindPuuid();
+        (string, string) shard = ValorantRegionParser.ParseRegionAndShard();
+        string dirName = $"{puuid}-{shard.Item2}"; // Build user's directory name
+        
         List<string> folders = Directory.EnumerateDirectories(_pathConfigFilesDir).ToList();
-        string? folder = folders.FirstOrDefault(f => f.Contains(puuid));
+        string? folder = folders.FirstOrDefault(f => f.Contains(dirName));
 
         if (string.IsNullOrWhiteSpace(folder))
         {
