@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>VALORez</AssemblyName>
-        <AssemblyVersion>0</AssemblyVersion>
+        <AssemblyVersion></AssemblyVersion>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
 

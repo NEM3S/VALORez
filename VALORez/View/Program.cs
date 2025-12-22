@@ -22,7 +22,7 @@ public abstract class Program
         var updater = new UpdateManager();
         await updater.CheckAndApplyUpdateAsync();
 
-        Console.WriteLine("------------------------ Apply Patch ------------------------");
+        Console.WriteLine("--------------------- Apply Patch ----------------------");
         Patcher patcher = new Patcher();
 
         try
@@ -51,9 +51,9 @@ public abstract class Program
             ConsoleWriter.PrintError(e.ToString());
         }
         
-        Console.Write("\n  -- Press enter to terminate --");
+        Console.Write("\n   -- Press enter to terminate --    ");
         Console.ReadLine();
-        Console.WriteLine("-------------------------------------------------------");
+        Console.WriteLine("--------------------------------------------------------");
     }
     
     private static void CleanupUpdate()
