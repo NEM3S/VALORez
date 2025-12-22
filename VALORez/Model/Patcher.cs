@@ -53,6 +53,8 @@ public class Patcher
                 }
             }
             _iniFileManager.EnableReadOnly();
+            
+            ConsoleWriter.PrintSuccess($"Patch completed");
         }
         catch (ValorezException)
         {
