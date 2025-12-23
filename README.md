@@ -20,6 +20,8 @@
     ~~~~           ╱:╱  ╱       ╲:╲__╲    ╲::╱  ╱       │:│  │        ╲:╲__╲        ╲:╲__╲    
                    ╲╱__╱         ╲╱__╱     ╲╱__╱         ╲│__│         ╲╱__╱         ╲╱__╱    
 ```
+
+[![LOGO](valorez.gif)](https://github.com/NEM3S/VALORez/releases/latest)
 </div>
 
 
