@@ -27,7 +27,7 @@ internal class ConfigSaverService(string path)
         }
         else
         {
-            ConsoleWriter.PrintInfo("An existing backup file was found. Use --revert option if you want to save again");
+            ConsoleWriter.PrintInfo("An existing backup file was found.");
         }
     }
 

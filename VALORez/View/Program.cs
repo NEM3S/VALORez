@@ -1,67 +1,89 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using Model;
 using Model.Utils;
 using View.Commands;
-using View.Commands.Implements;
+using Spectre.Console;
+using Spectre.Console.Cli;
+using Spectre.Console.Cli.Help;
 
 namespace View;
 
 public abstract class Program
 {
-    public static async Task Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
         SetupConsole();
         
-        Patcher patcherReceiver = new Patcher();
-        UpdateManager updateManagerReceiver = new UpdateManager();
+        // Dependency Injections
+        var services = new ServiceCollection();
+        services.AddSingleton<Patcher>();       // Patcher
+        services.AddSingleton<UpdateManager>(); // UpdateManager
+        
+        var registrar = new Utils.TypeRegistrar(services);
+        var app = new CommandApp(registrar);
 
-        StartupInvoker invoker = new StartupInvoker();
-        invoker.SetCommand(new HelpCommand());
-
-        // Select the right command
-        if (args.Any())
+        // Routes configuration
+        app.Configure(config =>
         {
-            if (args[0] == "--revert-patch")
-            {
-                await CheckUpdateProcess();
-                invoker.SetCommand(new RevertCommand(patcherReceiver));
-            }
+            config.SetApplicationName("VALORez");
             
-            else if (args[0] == "--patch" && args[1].ToLower().Contains("x"))
+            config.Settings.HelpProviderStyles = new HelpProviderStyle
             {
-                var parts = args[1].ToLower().Split('x');
-                int w = int.Parse(parts[0]);
-                int h = int.Parse(parts[1]);
-                
-                await CheckUpdateProcess();
-                invoker.SetCommand(new ResizeCommand(patcherReceiver, w, h));
-            }
+                Usage = new UsageStyle
+                {
+                    Header = "bold blue",
+                    Options = "gray",
+                    OptionalArgument = "darkblue",
+                    RequiredArgument = "blue3",
+                    Command = "bold skyblue1",
+                    CurrentCommand = "bold skyblue1",
+                },
+                Description = new DescriptionStyle
+                {
+                    Header = "bold white",
+                },
+                Arguments = new ArgumentStyle
+                {
+                    Header = "bold blue3",
+                },
+                Options = new OptionStyle
+                {
+                    Header = "bold blue",
+                },
+                Commands = new CommandStyle
+                {
+                    Header = "bold blue",
+                    ChildCommand = "bold skyblue1",
+                }
+            };
             
-            if (args[0] == "--update")
-            {
-                invoker.SetCommand(new UpdateCommand(updateManagerReceiver));
-            }
+            config.SetApplicationVersion(Assembly.GetEntryAssembly()?.GetName().Name + " v" + Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "1.0.0");
             
-            else if (args[0] == "--version")
-            {
-                invoker.SetCommand(new VersionCommand());
-            }
             
-        }
+            config.AddCommand<PatchCommand>("patch")
+                .WithDescription("Apply the true stretched resolution patch to VALORANT, with your desired custom resolution");
+            
+            config.AddCommand<RevertPatchCommand>("revert-patch")
+                .WithDescription("Revert the previous applied patch");
+            
+            config.AddCommand<UpdateCommand>("update")
+                .WithDescription("Update the application from GitHub server");
 
-        // Execute command
-        await invoker.Run();
+        });
 
-        WaitForExit();
+        return await app.RunAsync(args);
     }
     
     private static void SetupConsole()
     {
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
         Console.OutputEncoding = Encoding.UTF8;
-        Console.WriteLine("--------------------------------------------------------");
         SplashArt.Draw();
+        CleanupUpdate();
     }
     
     private static void CleanupUpdate()
@@ -71,30 +93,7 @@ public abstract class Program
 
         if (File.Exists(oldExe))
         {
-            try
-            {
-                File.Delete(oldExe); 
-            }
-            catch
-            {
-                // ignored
-            }
+            File.Delete(oldExe);
         }
-    }
-    
-    private static async Task CheckUpdateProcess()
-    {
-        Console.WriteLine("------------------------ Update ------------------------");
-        CleanupUpdate();
-        var updater = new UpdateManager();
-        await updater.CheckUpdateAsync();
-        Console.WriteLine();
-    }
-    
-    private static void WaitForExit()
-    {
-        Console.Write("\n   -- Press enter to terminate --    ");
-        Console.ReadLine();
-        Console.WriteLine("--------------------------------------------------------");
     }
 }
