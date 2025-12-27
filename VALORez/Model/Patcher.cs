@@ -7,39 +7,34 @@ public class Patcher
 {
     private IniFileManager? _iniFileManager;
     private ConfigSaverService? _consoleSaver;
-
     private readonly string _mainSection = "/Script/ShooterGame.ShooterGameUserSettings";
-    private readonly Dictionary<string, string> _keys;
-
-    public Patcher(int width = 1280, int height = 720)
+    
+    public void ApplyPatch(int width, int height)
     {
-        _keys = new()
-        { 
-            {"bshouldletterbox", "False"},
-            {"blastconfirmedshouldletterbox", "False"},
-            {"resolutionsizex", width.ToString()},
-            {"resolutionsizey", height.ToString()},
-            {"lastuserconfirmedresolutionsizex", width.ToString()},
-            {"lastuserconfirmedresolutionsizey", height.ToString()},
-            {"windowposx", "0"},
-            {"windowposy", "0"},
-            {"lastconfirmedfullscreenmode", "2"},
-            {"preferredfullscreenmode", "1"},
-            {"fullscreenmode", "2"}
+        var keys = new Dictionary<string, string>
+        {
+            { "bshouldletterbox", "False" },
+            { "blastconfirmedshouldletterbox", "False" },
+            { "resolutionsizex", width.ToString() },
+            { "resolutionsizey", height.ToString() },
+            { "lastuserconfirmedresolutionsizex", width.ToString() },
+            { "lastuserconfirmedresolutionsizey", height.ToString() },
+            { "windowposx", "0" },
+            { "windowposy", "0" },
+            { "lastconfirmedfullscreenmode", "2" },
+            { "preferredfullscreenmode", "1" },
+            { "fullscreenmode", "2" }
         };
-    }
 
-    public void Initialize()
-    {
         try
         {
             PuuidPeeker puuidPeeker = new PuuidPeeker();
             _iniFileManager = new IniFileManager(puuidPeeker.FindPuuidFolder());
             _consoleSaver = new ConfigSaverService(_iniFileManager.PathConfig);
             _consoleSaver.Save();
-            
+
             _iniFileManager.DisableReadOnly();
-            foreach (var key in _keys)
+            foreach (var key in keys)
             {
                 if (_iniFileManager.KeyExists(key.Key, _mainSection))
                 {
@@ -49,16 +44,17 @@ public class Patcher
                 else
                 {
                     _iniFileManager.Write(key.Key, key.Value, _mainSection);
-                    ConsoleWriter.PrintInfo($"\"{key.Key}\" does not exist, so the key has been created and set on {key.Value} successfully");
+                    ConsoleWriter.PrintInfo($"\"{key.Key}\" does not exist, created and set on {key.Value}");
                 }
             }
+
             _iniFileManager.EnableReadOnly();
-            
-            ConsoleWriter.PrintSuccess($"Patch completed");
+
+            ConsoleWriter.PrintSuccess($"Patch completed for resolution {width}x{height}");
         }
         catch (ValorezException)
         {
-            // Nothing to do...
+            // ignored
         }
         catch (Exception e)
         {
@@ -66,7 +62,7 @@ public class Patcher
         }
     }
 
-    public void Reset()
+    public void Revert()
     {
         try
         {
@@ -79,7 +75,6 @@ public class Patcher
                 _iniFileManager.DisableReadOnly();
                 _iniFileManager.DeleteFile();
             }
-
             _consoleSaver.Revert();
         }
         catch (ValorezException)
@@ -91,5 +86,4 @@ public class Patcher
             ConsoleWriter.PrintError(e.ToString());
         }
     }
-    
 }

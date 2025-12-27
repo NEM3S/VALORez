@@ -20,9 +20,9 @@ public class UpdateManager
     /// <summary>
     /// Update the application from GitHub server.
     /// </summary>
-    public async Task CheckAndApplyUpdateAsync()
+    public async Task CheckUpdateAsync()
     {
-        Console.WriteLine("Check for update...");
+        Console.WriteLine("Checking for update...");
 
         try
         {
@@ -42,15 +42,48 @@ public class UpdateManager
             {
                 var serverVersion = new Version(serverVersionRaw);
 
-                Console.WriteLine($">> Current Version : {localVersion?.ToString(3)}  |  New version : {serverVersion}");
+                Console.WriteLine(serverVersion > localVersion
+                    ? $">> New version available (v{serverVersion}), use --update to perform update."
+                    : $">> {Assembly.GetEntryAssembly()?.GetName().Name} is up to date.");
+            }
+        }
+        catch (Exception)
+        {
+            ConsoleWriter.PrintFailure("Update checking failed");
+            throw;
+        }
+    }
+    
+    /// <summary>
+    /// Update the application from GitHub server.
+    /// </summary>
+    public async Task ApplyUpdateAsync()
+    {
+        try
+        {
+            // Get the latest release from GitHub
+            var url = $"https://api.github.com/repos/{RepoOwner}/{RepoName}/releases/latest";
+            var release = await _httpClient.GetFromJsonAsync<GitHubRelease>(url);
+
+            if (release == null) return;
             
+            // Local version
+            var localVersion = Assembly.GetEntryAssembly()?.GetName().Version;
+            
+            // Clean tag to get server version
+            // Delete 'v': e.g. "v.1.2.3" -> "1.2.3"
+            var serverVersionRaw = release.TagName?.TrimStart('v');
+            if (serverVersionRaw != null)
+            {
+                var serverVersion = new Version(serverVersionRaw);
                 if (serverVersion > localVersion)
                 {
                     // Skipped update during development mode
 #if DEBUG
                     Console.WriteLine(">> [DEV MODE] Debug mode: Update skipped.");
 #else
-                    Console.WriteLine(">> New update found!  Downloading...");
+                    Console.WriteLine(">> Downloading...");
+                    Console.WriteLine($">> Current: v{localVersion}  ->  New : v{serverVersion}");
                     await PerformUpdate(release);
 #endif
                 }
@@ -62,7 +95,7 @@ public class UpdateManager
         }
         catch (Exception)
         {
-            ConsoleWriter.PrintFailure($"Update failed");
+            ConsoleWriter.PrintFailure("Update failed");
             throw;
         }
     }
@@ -105,7 +138,7 @@ public class UpdateManager
         File.Move(newExePath, currentExe);  // 2. Replace with the new one
 
         Console.WriteLine(">> Update completed!");
-        Console.WriteLine(">> Program will restart in few seconds.");
+        Console.WriteLine(">> You can now restart the CLI.");
         
         if (File.Exists(zipPath)) File.Delete(zipPath);
         if (Directory.Exists(extractPath)) Directory.Delete(extractPath, true);
