@@ -11,7 +11,7 @@
 </div>
 
 
-> **Status:** Fully functional and operational from **December 2025**.
+> **Status:** Fully functional and operational from **January 2026**.
 
 **VALORez** is a lightweight console tool built with **.NET 8 (C#)** that allows you to **patch VALORANT** to enable **stretched resolutions**.
 
@@ -61,4 +61,4 @@ Use at your own risk. Patching game files may violate the Terms of Service — e
 ## Credits
 
 Passionately created by _**Mathis**_ ❤️
-Thanks to my gf and all my friends for their constant support.
+Thanks to all my friends for their constant support.
